@@ -2,17 +2,30 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
+//Rotas do Admin
+Route::prefix('admin')->namespace('Admin')->group(function () {
+    /**
+     *
+     * Rotas do Plano
+     *
+     */
+   // Route::get('plans/create', 'PlanController@create')->name('plans.create');
+    //Route::get('plans/{url}/edit', 'PlanController@edit')->name('plans.edit');
+    //Route::any('plans/search', 'PlanController@search')->name('plans.search');
+    //Route::get('plans/{url}', 'PlanController@show')->name('plans.show');
+    Route::get('plans', 'PlanController@index')->name('plans.index');
+
+    //Route::post('plans', 'PlanController@store')->name('plans.store');
+    //Route::put('plans/{url}', 'PlanController@update')->name('plans.update');
+    //Route::delete('plans/{url}', 'PlanController@destroy')->name('plans.destroy');
+
+    /**
+     *
+     * Rotas da Dashboard
+     *
+     */
+
+    Route::get('/', 'PlanController@index')->name('admin.index');
+
 });
