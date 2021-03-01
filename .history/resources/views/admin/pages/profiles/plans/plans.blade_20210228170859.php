@@ -1,26 +1,26 @@
 @extends('adminlte::page')
 
-@section('title', 'Permissões do Perfil')
+@section('title', 'Perfis')
 
 @section('content_header')
+    <h1>Planos do Perfil: <b>{{$profile->name}}</b></h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="{{ route('admin.index') }}">Dashboard</a>
         </li>
+        <li class="breadcrumb-item">
+            <a href="{{ route('profiles.index') }}">Perfils</a>
+        </li>
         <li class="breadcrumb-item active">
-            <a href="{{ route('profiles.index') }}">Permissões do Perfil</a>
+            <a href="{{ route('profiles.plans') }}">Planos</a>
         </li>
     </ol>
-    <h1>Permissões do Perfil - {{ $profile->name  }}</h1>
-    <div class="text-right">
-        <a href="{{ route('profiles.permissions.available', $profile->id) }}" class="btn btn-dark" title="Adicionar Nova Permissão"><i class="fas fa-plus-square fa-1x"></i></a>
-    </div>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
-          <form action="{{ route('profiles.search') }}" method="POST" class="form form-inline">
+          <form action="{{ route('permissions.search') }}" method="POST" class="form form-inline">
               @csrf
             <input type="text" name="filter" placeholder="Filtro" class="form-control" value="{{ $filters['filter'] ?? '' }}">
             <button type="submit" class="btn btn-dark">Filtrar</button>
@@ -32,12 +32,18 @@
                <thead>
                    <tr>
                        <th>Nome</th>
+                       <th>Descrição</th>
+                       <th class="text-right">Ações</th>
                    </tr>
                </thead>
                <tbody>
-                   @foreach ($permissions as $permission)
+                   @foreach ($profiles as $profile)
                     <tr>
-                        <td>{{ $permission->name }}</td>
+                        <td>{{ $profile->name }}</td>
+                        <td>{{ $profile->description }}</td>
+                        <td class="text-right">
+                        <a href="{{route('profiles.permission.detach',[$profile->id, $profile->id])}}" class="btn btn-danger mr-1">Desvicular</a>
+                        </td>
                     </tr>
                    @endforeach
                </tbody>
@@ -45,13 +51,10 @@
         </div>
         <div class="card-footer">
             @if (isset($filters))
-            {!! $permissions->appends($filters)->links() !!}
+            {!! $profiles->appends($filters)->links() !!}
         @else
-            {!! $permissions->links() !!}
+            {!! $profiles->links() !!}
         @endif
         </div>
-
-
     </div>
-
 @stop
